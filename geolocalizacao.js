@@ -17,40 +17,54 @@ document.head.appendChild(Object.assign(document.createElement('style'), { textC
 
 function createLocationUI() {
     const content = document.querySelector('#aba-inicio .content');
-    if (!content || document.getElementById('btn-testar-localizacao')) return;
+    if (!content) return;
 
-    const button = document.createElement('button');
-    button.id = 'btn-testar-localizacao';
-    button.className = 'btn btn-secundario geo-location-button';
-    button.type = 'button';
-    button.innerHTML = '📍 Testar minha localização';
+    let button = document.getElementById('btn-testar-localizacao');
+
+    if (!button) {
+        button = document.createElement('button');
+        button.id = 'btn-testar-localizacao';
+        button.className = 'btn btn-secundario geo-location-button';
+        button.type = 'button';
+        button.innerHTML = '📍 Testar minha localização';
+        content.insertBefore(button, document.getElementById('lista-visitas-pendentes'));
+    }
+
     button.addEventListener('click', obterLocalizacao);
-    content.insertBefore(button, document.getElementById('lista-visitas-pendentes'));
 
-    const modal = document.createElement('div');
-    modal.id = 'geo-modal';
-    modal.className = 'geo-modal';
-    modal.setAttribute('role', 'dialog');
-    modal.setAttribute('aria-modal', 'true');
-    modal.innerHTML = `
-        <section class="geo-card" aria-labelledby="geo-title">
-            <h2 id="geo-title">Sua localização</h2>
-            <p id="geo-status" class="geo-loading">Obtendo coordenadas...</p>
-            <p id="geo-coordinates" class="geo-coordinates" hidden></p>
-            <p id="geo-address" class="geo-address">Buscando endereço aproximado...</p>
-            <div class="geo-actions">
-                <a id="geo-maps-link" class="btn btn-primario" href="#" target="_blank" rel="noopener" hidden>Ver no Google Maps</a>
-                <button id="geo-close" class="btn btn-secundario" type="button">Fechar</button>
-            </div>
-        </section>`;
-    document.body.appendChild(modal);
-    document.getElementById('geo-close').addEventListener('click', fecharLocalizacao);
-    modal.addEventListener('click', event => { if (event.target === modal) fecharLocalizacao(); });
+    let modal = document.getElementById('geo-modal');
+    if (!modal) {
+        modal = document.createElement('div');
+        modal.id = 'geo-modal';
+        modal.className = 'geo-modal';
+        modal.setAttribute('role', 'dialog');
+        modal.setAttribute('aria-modal', 'true');
+        modal.innerHTML = `
+            <section class="geo-card" aria-labelledby="geo-title">
+                <h2 id="geo-title">Sua localização</h2>
+                <p id="geo-status" class="geo-loading">Obtendo coordenadas...</p>
+                <p id="geo-coordinates" class="geo-coordinates" hidden></p>
+                <p id="geo-address" class="geo-address">Buscando endereço aproximado...</p>
+                <div class="geo-actions">
+                    <a id="geo-maps-link" class="btn btn-primario" href="#" target="_blank" rel="noopener" hidden>Ver no Google Maps</a>
+                    <button id="geo-close" class="btn btn-secundario" type="button">Fechar</button>
+                </div>
+            </section>`;
+        document.body.appendChild(modal);
+        document.getElementById('geo-close').addEventListener('click', fecharLocalizacao);
+        modal.addEventListener('click', event => { if (event.target === modal) fecharLocalizacao(); });
+    }
 }
 
-function abrirLocalizacao() { document.getElementById('geo-modal').classList.add('is-open'); }
-function fecharLocalizacao() { document.getElementById('geo-modal').classList.remove('is-open'); }
-function setGeoMessage(id, message) { document.getElementById(id).textContent = message; }
+function abrirLocalizacao() {
+    const modal = document.getElementById('geo-modal');
+    if (modal) modal.classList.add('is-open');
+}
+
+function fecharLocalizacao() {
+    const modal = document.getElementById('geo-modal');
+    if (modal) modal.classList.remove('is-open');
+}
 
 async function obterEndereco(latitude, longitude) {
     try {
@@ -71,6 +85,9 @@ function obterLocalizacao() {
     const coordinates = document.getElementById('geo-coordinates');
     const address = document.getElementById('geo-address');
     const mapsLink = document.getElementById('geo-maps-link');
+
+    if (!status || !coordinates || !address || !mapsLink) return;
+
     status.textContent = 'Solicitando acesso à localização...';
     coordinates.hidden = true;
     mapsLink.hidden = true;
