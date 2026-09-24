@@ -2,157 +2,82 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Advance Tintas - App Técnico</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="theme-color" content="#e3000f">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="Advance Tintas">
+    <meta name="description" content="Aplicativo técnico da Advance Tintas para gestão de visitas.">
+    <link rel="manifest" href="manifest.webmanifest">
+    <link rel="apple-touch-icon" href="icons/icon-192.svg">
     <link rel="stylesheet" href="styles.css">
+    <title>Advance Tintas - App Técnico</title>
 </head>
 <body>
-
-    <!-- CELULAR APP -->
-    <div class="app-container">
-        
-        <!-- ABA 1: INÍCIO -->
+    <main class="app-container">
         <div id="aba-inicio" class="aba-conteudo" style="display: flex;">
             <header>ADVANCE <span>TINTAS</span></header>
             <div class="content">
-                <h2 style="margin-top:0;">Próximas Visitas</h2>
+                <h2>Próximas Visitas</h2>
                 <div id="lista-visitas-pendentes">A carregar da nuvem...</div>
             </div>
         </div>
 
-        <!-- ABA 2: VISITAS (Histórico) -->
         <div id="aba-historico" class="aba-conteudo">
             <header>ADVANCE <span>TINTAS</span></header>
             <div class="content">
-                <h2 style="margin-top:0;">Histórico de Visitas</h2>
+                <h2>Histórico de Visitas</h2>
                 <div id="lista-visitas-concluidas">A carregar da nuvem...</div>
             </div>
         </div>
 
-        <!-- TELA 2: CONFIRMAR CHECK-IN -->
         <div id="tela-confirmacao" class="tela-interna tela-confirmacao">
-            <h1 class="titulo-confirmacao">iniciar visita?</h1>
-            <div class="info-bloco">
-                <img src="" id="img-cliente" class="avatar" alt="Cliente">
-                <p class="label-pequena">Cliente</p>
-                <p class="texto-nome" id="conf-cliente">...</p>
-            </div>
-            <div class="info-bloco">
-                <img src="" id="img-gestor" class="avatar" alt="Gestor">
-                <p class="label-pequena">Gestor responsável</p>
-                <p class="texto-nome" id="conf-gestor">...</p>
-            </div>
-            <div class="info-bloco">
-                <img src="" id="img-tecnico" class="avatar" alt="Técnico">
-                <p class="label-pequena">Assistente Técnico</p>
-                <p class="texto-nome" id="conf-tecnico">...</p>
-            </div>
-            <div style="margin: 30px 0 40px 0;">
-                <p class="label-pequena">Data e Hora do Check-in</p>
-                <p class="texto-nome" id="conf-data">...</p>
-            </div>
+            <h1 class="titulo-confirmacao">Iniciar visita?</h1>
+            <div class="info-bloco"><img src="" id="img-cliente" class="avatar" alt="Cliente"><p class="label-pequena">Cliente</p><p class="texto-nome" id="conf-cliente">...</p></div>
+            <div class="info-bloco"><img src="" id="img-gestor" class="avatar" alt="Gestor"><p class="label-pequena">Gestor responsável</p><p class="texto-nome" id="conf-gestor">...</p></div>
+            <div class="info-bloco"><img src="" id="img-tecnico" class="avatar" alt="Técnico"><p class="label-pequena">Assistente Técnico</p><p class="texto-nome" id="conf-tecnico">...</p></div>
+            <div class="checkin-data"><p class="label-pequena">Data e hora do check-in</p><p class="texto-nome" id="conf-data">...</p></div>
             <button class="btn btn-primario" onclick="confirmarCheckin()">Iniciar</button>
-            <button class="btn btn-secundario" style="margin-top: 15px; border:none;" onclick="fecharTelaInterna()">Voltar</button>
+            <button class="btn btn-secundario" onclick="fecharTelaInterna()">Voltar</button>
         </div>
 
-        <!-- TELA 3: VISITA ATUAL -->
         <div id="tela-visita-atual" class="tela-interna">
-            <header>
-                <button class="btn-voltar-topo" onclick="fecharTelaInterna()">&#8617;</button>
-                ADVANCE <span>TINTAS</span>
-            </header>
-            <div style="padding: 20px 20px 0 20px;">
-                <h1 style="margin: 0; font-size: 1.5rem; font-weight: 800;">Visita atual</h1>
-            </div>
+            <header><button class="btn-voltar-topo" onclick="fecharTelaInterna()" aria-label="Voltar">&#8617;</button>ADVANCE <span>TINTAS</span></header>
+            <div class="page-title"><h1>Visita atual</h1></div>
             <div class="card-branco">
-                <h2 id="va-cliente-nome" style="margin: 0; font-size: 1.2rem; font-weight: 800;">...</h2>
-                <div class="status-texto">EM ANDAMENTO</div>
-
-                <div style="margin-bottom: 15px;">
-                    <label style="display:block; font-size: 0.95rem; font-weight:600; margin-bottom: 8px;">Chegada</label>
-                    <div class="row-inputs">
-                        <input type="text" id="va-data" class="input-box" readonly>
-                        <input type="text" id="va-hora" class="input-box" readonly>
-                    </div>
-                </div>
-
-                <div style="margin-bottom: 15px;">
-                    <label style="display:block; font-size: 0.95rem; font-weight:600; margin-bottom: 8px;">Tipo de assistência</label>
-                    <input type="text" id="va-tipo" class="input-box" placeholder="Ex: Manutenção Preventiva">
-                </div>
-
-                <div style="margin-bottom: 15px;">
-                    <label style="display:block; font-size: 0.95rem; font-weight:600; margin-bottom: 8px;">Resumo do problema</label>
-                    <textarea id="va-resumo" class="input-box" style="resize:none; min-height:80px;" placeholder="Descreva brevemente..."></textarea>
-                </div>
-                <hr>
-                <div id="va-area-timeline"></div>
-                <div id="va-area-botao" style="margin-top: 20px;"></div>
+                <h2 id="va-cliente-nome">...</h2><div class="status-texto">EM ANDAMENTO</div>
+                <div class="field"><label>Chegada</label><div class="row-inputs"><input type="text" id="va-data" class="input-box" readonly><input type="text" id="va-hora" class="input-box" readonly></div></div>
+                <div class="field"><label for="va-tipo">Tipo de assistência</label><input type="text" id="va-tipo" class="input-box" placeholder="Ex: Manutenção Preventiva"></div>
+                <div class="field"><label for="va-resumo">Resumo do problema</label><textarea id="va-resumo" class="input-box" placeholder="Descreva brevemente..."></textarea></div>
+                <hr><div id="va-area-timeline"></div><div id="va-area-botao" class="action-area"></div>
             </div>
         </div>
 
-        <!-- TELA 4: RELATÓRIO -->
         <div id="tela-relatorio" class="tela-interna tela-relatorio">
-            <header>
-                <button class="btn-voltar-topo" onclick="voltarDoRelatorio()">&#8617;</button>
-                ADVANCE <span>TINTAS</span>
-            </header>
+            <header><button class="btn-voltar-topo" onclick="voltarDoRelatorio()" aria-label="Voltar">&#8617;</button>ADVANCE <span>TINTAS</span></header>
             <div class="relatorio-header">
-                <h1 class="relatorio-titulo" id="rel-titulo">Relatório</h1>
-                <div class="relatorio-codigo" id="rel-codigo">...</div>
-                <div style="margin-bottom: 15px;">
-                    <label style="display:block; font-size: 0.9rem; font-weight:600; margin-bottom: 6px;">Chegada</label>
-                    <div class="row-inputs">
-                        <input type="text" id="rel-chegada-data" class="input-box" readonly>
-                        <input type="text" id="rel-chegada-hora" class="input-box" readonly>
-                    </div>
-                </div>
-                <div style="margin-bottom: 10px;">
-                    <label style="display:block; font-size: 0.9rem; font-weight:600; margin-bottom: 6px;">Cliente</label>
-                    <select id="rel-select-cliente" class="input-box" style="appearance: auto;" disabled></select>
-                </div>
-                <a class="link-cliente" onclick="alert('Abrindo ficha cadastral do cliente!')">Acessar ficha do Cliente</a>
+                <h1 class="relatorio-titulo" id="rel-titulo">Relatório</h1><div class="relatorio-codigo" id="rel-codigo">...</div>
+                <div class="field"><label>Chegada</label><div class="row-inputs"><input type="text" id="rel-chegada-data" class="input-box" readonly><input type="text" id="rel-chegada-hora" class="input-box" readonly></div></div>
+                <div class="field"><label for="rel-select-cliente">Cliente</label><select id="rel-select-cliente" class="input-box" disabled></select></div>
+                <a class="link-cliente" onclick="alert('Abrindo ficha cadastral do cliente!')">Acessar ficha do cliente</a>
             </div>
-            <div class="relatorio-editor">
-                <textarea id="rel-texto" class="textarea-relatorio" placeholder="Comece a escrever..."></textarea>
-            </div>
-            <div class="relatorio-acoes" id="rel-area-acoes">
-                <button class="btn btn-primario" onclick="salvarRelatorio()">Salvar relatório</button>
-                <button class="btn-anexo" title="Anexar arquivo/foto">&#128196;<sup>+</sup></button>
-            </div>
+            <div class="relatorio-editor"><textarea id="rel-texto" class="textarea-relatorio" placeholder="Comece a escrever..."></textarea></div>
+            <div class="relatorio-acoes" id="rel-area-acoes"><button class="btn btn-primario" onclick="salvarRelatorio()">Salvar relatório</button><button class="btn-anexo" title="Anexar arquivo/foto">&#128206;</button></div>
         </div>
 
-        <!-- NAVBAR -->
-        <nav class="bottom-navbar" id="navbar">
-            <button class="nav-item active" id="nav-btn-inicio" onclick="mudarAba('inicio')">
-                <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
-                Início
-            </button>
-            <button class="nav-item" onclick="alert('Funcionalidade Agenda em breve.')">
-                <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
-                Agenda
-            </button>
-            <button class="nav-item" id="nav-btn-historico" onclick="mudarAba('historico')">
-                <svg viewBox="0 0 24 24"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>
-                Visitas
-            </button>
-            <button class="nav-item" onclick="alert('Funcionalidade Mensagens em breve.')">
-                <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
-                Mensagens
-            </button>
+        <nav class="bottom-navbar" id="navbar" aria-label="Navegação principal">
+            <button class="nav-item active" id="nav-btn-inicio" onclick="mudarAba('inicio')"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>Início</button>
+            <button class="nav-item" onclick="alert('Funcionalidade Agenda em breve.')"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>Agenda</button>
+            <button class="nav-item" id="nav-btn-historico" onclick="mudarAba('historico')"><svg viewBox="0 0 24 24"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>Visitas</button>
+            <button class="nav-item" onclick="alert('Funcionalidade Mensagens em breve.')"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>Mensagens</button>
         </nav>
-    </div>
-
-    <!-- PAINEL DE MONITORAMENTO DO FIRESTORE -->
-    <div class="debug-panel-externo">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 1px solid #333; padding-bottom: 10px;">
-            <h4>Cloud Firestore (Monitor Nuvem)</h4>
-            <button onclick="popularBancoFirebase()">Popular Dados Iniciais</button>
-        </div>
-        <pre id="db-view" style="margin:0;">A ligar ao Firebase...</pre>
-    </div>
-
-    <!-- SCRIPT PRINCIPAL -->
+    </main>
     <script type="module" src="script.js"></script>
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => navigator.serviceWorker.register('./sw.js'));
+        }
+    </script>
 </body>
 </html>
