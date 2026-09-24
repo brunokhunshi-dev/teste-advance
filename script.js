@@ -2,13 +2,7 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/11.4.0/firebas
 import { getFirestore, collection, getDocs, doc, setDoc, updateDoc } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-firestore.js";
 
 const firebaseConfig = {
-    apiKey: "AIzaSyAMDeRB1ZOOP919gcbcOoFgAsy6dNy7zS8",
-    authDomain: "banco-de-dados-monitor.firebaseapp.com",
-    projectId: "banco-de-dados-monitor",
-    storageBucket: "banco-de-dados-monitor.firebasestorage.app",
-    messagingSenderId: "248039911306",
-    appId: "1:248039911306:web:188ffff179b3ffb3ace273",
-    measurementId: "G-R936WL5DZQ"
+
 };
 
 const app = initializeApp(firebaseConfig);
